@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: mblog-postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/:/var/lib/postgresql/data
+    env_file:
+      - .env-postgresql
+    restart: always
+    networks:
+      - net
+  nginx:
+    container_name: mblog-nginx
+    build: ./nginx
+    volumes:
+      - ./var/log/nginx:/var/log/nginx
+      - ./static:/usr/share/nginx/html/static
+      - ./templates:/usr/share/nginx/html
+      - ./media:/usr/share/nginx/html/static/images
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    networks:
+      - net
+  web:
+    container_name: mblog-web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./media:/app/media
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - net
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  db:
+  media:

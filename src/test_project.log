@@ -1,0 +1,7 @@
+ERROR:MAIN:[maim] on_startup
+ERROR:MAIN:[maim] engine postgresql+asyncpg://postgres:***@localhost:5432/mblog_db
+ERROR:MAIN:[maim] create_db_and_tables <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000002116AED2190>
+ERROR:MAIN:file_path C:\Users\frexr\PycharmProjects\python_advanced_diploma\media\2024-04-02 19:45:41.567554 squirrel.jpg
+ERROR:MAIN:[maim] on_startup
+ERROR:MAIN:[maim] engine postgresql+asyncpg://postgres:***@localhost:5432/mblog_db
+ERROR:MAIN:[maim] create_db_and_tables <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x0000013F1C7D1310>
