@@ -1,5 +1,4 @@
-from pydantic_settings import SettingsConfigDict, BaseSettings
-
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Setting(BaseSettings):
     postgres_user: str
@@ -8,7 +7,6 @@ class Setting(BaseSettings):
     postgres_host: str
     postgres_port: int
 
-    model_config = SettingsConfigDict(env_file="../.env-postgresql")
-
 
 setting = Setting()
+
