@@ -1,10 +1,10 @@
 import datetime
 import os
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator, List, Sequence, Tuple, Union
+from typing import AsyncGenerator, List, Sequence, Tuple, Union, Annotated
 
 import uvicorn
-from fastapi import Depends, FastAPI, Header, Request, Response, UploadFile
+from fastapi import Depends, FastAPI, Header, Request, Response, UploadFile, Path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -101,16 +101,9 @@ async def create_db_and_tables() -> None:
         await conn.run_sync(models.Base.metadata.create_all)
 
 
-# @app.on_event("startup")
-# async def on_startup():
-#     await create_db_and_tables()
-#     async with LocalAsyncSession() as session:
-#         await add_data_to_db(session)
-
-
 @app.exception_handler(UnicornException)
 async def unicorn_exception_handler(
-    request: Request, exc: UnicornException
+        request: Request, exc: UnicornException
 ) -> JSONResponse:
     """Вывод информации об ошибке"""
     return JSONResponse(
@@ -125,8 +118,8 @@ async def unicorn_exception_handler(
 
 @app.get("/api/users/me", status_code=200, response_model=schemas.UserOut)
 async def get_user_me(
-    api_key: str = Header(None),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        api_key: str = Header(None),  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.UserOut:
     """
     Пользователь может получить информацию о своём профиле
@@ -167,7 +160,8 @@ async def get_user_me(
 
 @app.get("/api/users/{id}", status_code=200, response_model=schemas.UserOut)
 async def get_user_id_(
-    id: int, session: AsyncSession = Depends(get_db)
+        id: Annotated[int, Path(gt=0, description="Get user by ID")],
+        session: AsyncSession = Depends(get_db)
 ) -> schemas.UserOut:
     """
     Обработка запроса на получение информацию о профиле пользователя по ID
@@ -209,9 +203,9 @@ async def get_user_id_(
 
 @app.post("/api/tweets", status_code=201, response_model=schemas.TweetOut)
 async def post_api_tweets(
-    tweet: schemas.TweetIn,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        tweet: schemas.TweetIn,
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.TweetOut:
     """
     Добавление твита от имени текущего пользователя
@@ -242,9 +236,9 @@ async def post_api_tweets(
 
 @app.post("/api/medias", status_code=201, response_model=schemas.MediaOut)
 async def post_medias(
-    file: UploadFile,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        file: UploadFile,
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.MediaOut:
     """
     Обработка запроса на загрузку файлов из твита
@@ -290,10 +284,10 @@ async def post_medias(
     "/api/tweets/{id}", status_code=200, response_model=schemas.ResultClass
 )
 async def delete_tweets_id(
-    response: Response,
-    id: int,
-    api_key: str = Header(),  # noqa: B008]
-    session: AsyncSession = Depends(get_db),
+        response: Response,
+        id: Annotated[int, Path(gt=0)],
+        api_key: Annotated[str, Header()],  # noqa: B008]
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
     """
     Обработка запроса на удаление твита
@@ -328,10 +322,10 @@ async def delete_tweets_id(
     response_model=schemas.ResultClass,
 )
 async def post_tweet_likes(
-    response: Response,
-    id: int,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        response: Response,
+        id: Annotated[int, Path(gt=0)],
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
     """
     Обработка запроса на постановку отметки 'нравится' на твит
@@ -366,10 +360,10 @@ async def post_tweet_likes(
     response_model=schemas.ResultClass,
 )
 async def delete_tweet_likes(
-    response: Response,
-    id: int,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        response: Response,
+        id: Annotated[int, Path(gt=0)],
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
     """
     Обработка запроса на удаление отметки 'нравится' у твита
@@ -400,8 +394,8 @@ async def delete_tweet_likes(
 
 @app.get("/api/tweets", status_code=200, response_model=schemas.Tweets)
 async def get_tweets_user(
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.Tweets:
     """
     Обработка запроса на получение ленты с твитами
@@ -431,10 +425,10 @@ async def get_tweets_user(
     response_model=schemas.ResultClass,
 )
 async def post_user_follow(
-    response: Response,
-    id: int,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        response: Response,
+        id: Annotated[int, Path(gt=0)],
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
     """
     Обработка запроса на добавление в друзья выбранного пользователя
@@ -469,10 +463,10 @@ async def post_user_follow(
     response_model=schemas.ResultClass,
 )
 async def delete_user_follow(
-    response: Response,
-    id: int,
-    api_key: str = Header(),  # noqa: B008
-    session: AsyncSession = Depends(get_db),
+        response: Response,
+        id: Annotated[int, Path(gt=0)],
+        api_key: Annotated[str, Header()],  # noqa: B008
+        session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
     """
     Обработка запроса на удаление выбранного пользователя из друзей
