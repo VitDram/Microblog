@@ -285,7 +285,7 @@ async def post_medias(
 )
 async def delete_tweets_id(
         response: Response,
-        id: int,
+        id: Annotated[int, Path(gt=0)],
         api_key: Annotated[str, Header()],  # noqa: B008]
         session: AsyncSession = Depends(get_db),
 ) -> schemas.ResultClass:
