@@ -79,7 +79,6 @@ async def get_user_me(
     return schemas.UserOut(rusult=True, user=user_me)
 
 
-# @app.get("/api/users/{id}", status_code=200, response_model=schemas.UserOut)
 @router.get("/{id}", status_code=200, response_model=schemas.UserOut)
 async def get_user_id_(
         id: Annotated[int, Path(gt=0, description="Get user by ID")],
@@ -123,11 +122,6 @@ async def get_user_id_(
     return schemas.UserOut(rusult=True, user=user_me)
 
 
-# @app.post(
-#     "/api/users/{id}/follow",
-#     status_code=201,
-#     response_model=schemas.ResultClass,
-# )
 @router.post(
     "/{id}/follow",
     status_code=201,
@@ -166,11 +160,6 @@ async def post_user_follow(
     return schemas.ResultClass(rusult=res)
 
 
-# @app.delete(
-#     "/api/users/{id}/follow",
-#     status_code=200,
-#     response_model=schemas.ResultClass,
-# )
 @router.delete(
     "/{id}/follow",
     status_code=200,
