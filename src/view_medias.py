@@ -13,6 +13,9 @@ from src.utils import (
     add_file_media,
 )
 
+PATH_PROJECT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PATH_MEDIA: str = os.path.join(PATH_PROJECT, "media")
+
 router = APIRouter(
     prefix="/api/medias",
     tags=["medias"],

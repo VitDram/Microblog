@@ -27,8 +27,11 @@ description = """
     * **Add and remove followers**
 """  # noqa: W293
 
-PATH_PROJECT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PATH_MEDIA: str = os.path.join(PATH_PROJECT, "media")
+
+async def create_db_and_tables() -> None:
+    """Создает базу данных и таблицы в ней"""
+    async with engine.begin() as conn:
+        await conn.run_sync(models.Base.metadata.create_all)
 
 
 @asynccontextmanager
@@ -71,13 +74,6 @@ app.include_router(router_tweets)
 app.include_router(router_medias)
 
 app.add_exception_handler(UnicornException, unicorn_exception_handler)
-
-
-async def create_db_and_tables() -> None:
-    """Создает базу данных и таблицы в ней"""
-    async with engine.begin() as conn:
-        await conn.run_sync(models.Base.metadata.create_all)
-
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
