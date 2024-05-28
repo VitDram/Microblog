@@ -52,7 +52,7 @@ async def check_user_is_empty(session: AsyncSession) -> bool:
 
 
 async def get_user_by_apy_key(
-    session: AsyncSession, apy_key_user: str
+        session: AsyncSession, apy_key_user: str
 ) -> Optional[models.User]:
     """
     Возвращает данные пользователя по ключу apy_key_user
@@ -70,7 +70,7 @@ async def get_user_by_apy_key(
 
 
 async def get_user_me_from_db(
-    apy_key_user: Optional[str], session: AsyncSession
+        apy_key_user: Optional[str], session: AsyncSession
 ) -> Union[
     str, Tuple[models.User, Sequence[models.User], Sequence[models.User]]
 ]:
@@ -108,7 +108,7 @@ async def get_user_me_from_db(
 
 
 async def get_user_id(
-    session: AsyncSession, id_user: int
+        session: AsyncSession, id_user: int
 ) -> Union[
     str, Tuple[models.User, Sequence[models.User], Sequence[models.User]]
 ]:
@@ -137,10 +137,10 @@ async def get_user_id(
 
 
 async def create_tweet(
-    session: AsyncSession,
-    apy_key_user: str,
-    tweet_data: str,
-    tweet_media_ids: Optional[List[int]],
+        session: AsyncSession,
+        apy_key_user: str,
+        tweet_data: str,
+        tweet_media_ids: Optional[List[int]],
 ) -> Union[str, int]:
     """
     Добавляет новый твиттер в БД
@@ -172,7 +172,7 @@ async def create_tweet(
 
 
 async def add_file_media(
-    session: AsyncSession, apy_key_user: str, name_file: str
+        session: AsyncSession, apy_key_user: str, name_file: str
 ) -> Union[str, int]:
     """
     Добавляет в БД имя прикрепленного к твиттеру файла
@@ -203,7 +203,7 @@ async def add_file_media(
 
 
 async def delete_tweets(
-    session: AsyncSession, apy_key_user: str, id_tweet: int
+        session: AsyncSession, apy_key_user: str, id_tweet: int
 ) -> Union[str, bool]:
     """
     Удаление твиттера пользователя по ID
@@ -255,7 +255,7 @@ async def delete_tweets(
 
 
 async def add_like_tweet(
-    session: AsyncSession, apy_key_user: str, id_tweet: int
+        session: AsyncSession, apy_key_user: str, id_tweet: int
 ) -> Union[str, bool]:
     """
     Добавляет лайк твиттеру с указанным ID
@@ -294,7 +294,7 @@ async def add_like_tweet(
 
 
 async def delete_like_tweet(
-    session: AsyncSession, apy_key_user: str, id_tweet: int
+        session: AsyncSession, apy_key_user: str, id_tweet: int
 ) -> Union[str, bool]:
     """
     Удаляет лайк у твиттера с указанным ID
@@ -337,7 +337,7 @@ async def delete_like_tweet(
 
 
 async def name_file_from_tweet_medias(
-    session: AsyncSession, list_id_name_file: List[int]
+        session: AsyncSession, list_id_name_file: List[int]
 ) -> List[str]:
     """
     Возвращает список имен файлов по их ID из таблицы TweetMedia
@@ -359,7 +359,7 @@ async def name_file_from_tweet_medias(
 
 
 async def user_following(
-    session: AsyncSession, id_follower: int, apy_key_user: str
+        session: AsyncSession, id_follower: int, apy_key_user: str
 ) -> Union[str, bool]:
     """
     Добавление подписчика пользователю
@@ -403,7 +403,7 @@ async def user_following(
 
 
 async def user_unfollowing(
-    session: AsyncSession, id_follower: int, apy_key_user: str
+        session: AsyncSession, id_follower: int, apy_key_user: str
 ) -> Union[str, bool]:
     """
     Удаление подписчика пользователю
@@ -445,8 +445,8 @@ async def user_unfollowing(
 
 
 async def out_tweets_user(
-    session: AsyncSession,
-    apy_key_user: str,
+        session: AsyncSession,
+        apy_key_user: str,
 ) -> Union[str, List[schemas.Tweet]]:
     """
     Возвращает твиты в ленту пользователя
@@ -505,7 +505,7 @@ async def out_tweets_user(
 
 
 async def delete_files_from_tweet(
-    session: AsyncSession, id_files_tweet: List[int]
+        session: AsyncSession, id_files_tweet: List[int]
 ) -> None:
     name_files: List[str] = await name_file_from_tweet_medias(
         session, id_files_tweet

@@ -1,36 +1,18 @@
 from fastapi import APIRouter
-from typing import AsyncGenerator, List, Sequence, Tuple, Union, Annotated
+from typing import List, Sequence, Tuple, Union, Annotated
 
 from fastapi import Depends, Header, Response, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src import models, schemas
-from src.database import LocalAsyncSession
 from src.depending import get_db
+from src.exceptiions import UnicornException
 from src.utils import (
     get_user_id,
     get_user_me_from_db,
     user_following,
     user_unfollowing,
 )
-
-
-# async def get_db() -> AsyncGenerator[AsyncSession, None]:
-#     """
-#     Создание сеанса базы данных
-#     :return: AsyncGenerator[AsyncSession, None]
-#         сеанс базы данных
-#     """
-#     async with LocalAsyncSession() as session:
-#         yield session
-
-
-class UnicornException(Exception):
-    def __init__(self, result: bool, error_type: str, error_message: str):
-        self.result: bool = result
-        self.error_type: str = error_type
-        self.error_message: str = error_message
-
 
 router = APIRouter(
     prefix="/api/users",

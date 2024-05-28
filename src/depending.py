@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import LocalAsyncSession
 
+
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Создание сеанса базы данных

@@ -1,11 +1,11 @@
-from typing import AsyncGenerator, List, Union, Annotated
+from typing import List, Union, Annotated
 
 from fastapi import APIRouter, Depends, Header, Response, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src import schemas
-from src.database import LocalAsyncSession
 from src.depending import get_db
+from src.exceptiions import UnicornException
 from src.utils import (
     add_like_tweet,
     create_tweet,
@@ -14,28 +14,11 @@ from src.utils import (
     out_tweets_user,
 )
 
-
-# async def get_db() -> AsyncGenerator[AsyncSession, None]:
-#     """
-#     Создание сеанса базы данных
-#     :return: AsyncGenerator[AsyncSession, None]
-#         сеанс базы данных
-#     """
-#     async with LocalAsyncSession() as session:
-#         yield session
-
-
-class UnicornException(Exception):
-    def __init__(self, result: bool, error_type: str, error_message: str):
-        self.result: bool = result
-        self.error_type: str = error_type
-        self.error_message: str = error_message
-
-
 router = APIRouter(
     prefix="/api/tweets",
     tags=["tweets"],
 )
+
 
 @router.post("/", status_code=201, response_model=schemas.TweetOut)
 async def post_api_tweets(
@@ -182,7 +165,6 @@ async def delete_tweet_likes(
     return schemas.ResultClass(rusult=res)
 
 
-# @router.get("/api/tweets", status_code=200, response_model=schemas.Tweets)
 @router.get("/", status_code=200, response_model=schemas.Tweets)
 async def get_tweets_user(
         api_key: Annotated[str, Header()],  # noqa: B008
