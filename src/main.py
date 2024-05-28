@@ -13,6 +13,7 @@ from src import models, schemas
 from src.view_users import router as router_users
 from src.view_tweets import router as router_tweets
 from src.database import LocalAsyncSession, engine
+from src.depending import get_db
 from src.utils import (
     add_data_to_db,
     add_file_media,
@@ -81,14 +82,14 @@ app.include_router(router_users)
 app.include_router(router_tweets)
 
 
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """
-    Создание сеанса базы данных
-    :return: AsyncGenerator[AsyncSession, None]
-        сеанс базы данных
-    """
-    async with LocalAsyncSession() as session:
-        yield session
+# async def get_db() -> AsyncGenerator[AsyncSession, None]:
+#     """
+#     Создание сеанса базы данных
+#     :return: AsyncGenerator[AsyncSession, None]
+#         сеанс базы данных
+#     """
+#     async with LocalAsyncSession() as session:
+#         yield session
 
 
 async def create_db_and_tables() -> None:

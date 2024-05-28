@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src import models, schemas
 from src.database import LocalAsyncSession
+from src.depending import get_db
 from src.utils import (
     get_user_id,
     get_user_me_from_db,
@@ -14,14 +15,14 @@ from src.utils import (
 )
 
 
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """
-    Создание сеанса базы данных
-    :return: AsyncGenerator[AsyncSession, None]
-        сеанс базы данных
-    """
-    async with LocalAsyncSession() as session:
-        yield session
+# async def get_db() -> AsyncGenerator[AsyncSession, None]:
+#     """
+#     Создание сеанса базы данных
+#     :return: AsyncGenerator[AsyncSession, None]
+#         сеанс базы данных
+#     """
+#     async with LocalAsyncSession() as session:
+#         yield session
 
 
 class UnicornException(Exception):
