@@ -8,7 +8,8 @@ from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
 from sqlalchemy_utils import create_database, database_exists
 
 from src.database import Base
-from src.main import app, get_db
+from src.main import app
+from src.depending import get_db
 from src.utils import add_data_to_db
 
 # for test with local db
