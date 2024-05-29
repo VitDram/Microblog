@@ -1,8 +1,0 @@
-ERROR:FIXTURE:[fixture] create engine
-ERROR:FIXTURE:[fixture] engine postgresql+asyncpg://test:***@localhost:5432/testdb
-ERROR:FIXTURE:[fixture] create engine
-ERROR:FIXTURE:[fixture] engine postgresql+asyncpg://test:***@localhost:5432/testdb
-ERROR:FIXTURE:[fixture] create engine
-ERROR:FIXTURE:[fixture] engine postgresql+asyncpg://test:***@localhost:5432/testdb
-ERROR:MAIN:file_path C:\Users\frexr\PycharmProjects\python_advanced_diploma\media\2024-04-02 19:36:43.351644 squirrel.jpg
-ERROR:MAIN:file_path C:\Users\frexr\PycharmProjects\python_advanced_diploma\media\2024-04-02 20:04:44.272331_squirrel.jpg
